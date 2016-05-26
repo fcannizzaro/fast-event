@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">FastEvent</string>
+    <string name="click_me_on_fragment">Click me (Fragment)</string>
+    <string name="click_me">Click me (Activity)</string>
+</resources>
