@@ -1,41 +1,63 @@
 # fast-event
 Simple event creation
 
+# Get It 
+
+Add it in your root build.gradle at the end of repositories:
+
+```gradle
+allprojects {
+    repositories {
+      ...
+      maven { url "https://jitpack.io" }
+    }
+  }
+```
+
+Step 2. Add the dependency
+
+
+```gradle
+dependencies {
+    compile 'com.github.fcannizzaro:fast-event:0.1.0'
+}
+```
+
 # Static Methods
 
-## enableLogs()
+### enableLogs()
 enable verbose log (development)
 
-## on(event)
+### on(event)
 create a new EventBuilder
 
-## emit(event)
+### emit(event)
 emit event
 
-## delete(event)
+### delete(event)
 delete event
 
-## enable(event)
+### enable(event)
 enable event (if disabled)
 
-## disable(event)
+### disable(event)
 disable event (if enabled)
 
 # EventBuilder Methods
 
-## async()
+### async()
 run event runnable inside a different thread
 
-## maxPriority()
+### maxPriority()
 use max priority in thread execution
 
-## minPriority()
+### minPriority()
 use min priority in thread execution
 
-## onUi()
+### onUi()
 run runnable inside Main Thread UI
 
-## execute(Runnable)
+### execute(Runnable)
 runnable to run on event
 
 # Sample
