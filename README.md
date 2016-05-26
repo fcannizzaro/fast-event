@@ -54,7 +54,7 @@ use max priority in thread execution
 ### minPriority()
 use min priority in thread execution
 
-### onUi()
+### onUi(Activity)
 run runnable inside Main Thread UI
 
 ### execute(Runnable)
