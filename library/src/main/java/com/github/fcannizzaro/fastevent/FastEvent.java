@@ -1,4 +1,4 @@
-package com.github.fcannizzaro.sample;
+package com.github.fcannizzaro.fastevent;
 
 import android.util.Log;
 
@@ -65,7 +65,7 @@ public class FastEvent {
     }
 
     /**
-         * Enable event (if disabled)
+     * Enable event (if disabled)
      */
     public static void enable(String event) {
         instance.disabled.remove(event);

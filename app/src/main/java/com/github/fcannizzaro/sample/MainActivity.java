@@ -6,6 +6,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.github.fcannizzaro.fastevent.FastEvent;
+
 public class MainActivity extends AppCompatActivity {
 
     @Override
@@ -38,6 +40,7 @@ public class MainActivity extends AppCompatActivity {
                 FastEvent.emit("in-fragment");
             }
         });
+
 
         getSupportFragmentManager()
                 .beginTransaction()

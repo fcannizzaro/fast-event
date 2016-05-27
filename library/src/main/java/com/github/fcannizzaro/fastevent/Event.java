@@ -1,6 +1,7 @@
-package com.github.fcannizzaro.sample;
+package com.github.fcannizzaro.fastevent;
 
 import android.app.Activity;
+import android.util.Log;
 
 /**
  * Francesco Cannizzaro (fcannizzaro)
@@ -18,15 +19,21 @@ public class Event {
 
     public void run() {
 
-        if (async) {
-            Thread thread = new Thread(runnable);
-            thread.setPriority(priority);
-            thread.start();
-        } else if (onUi)
-            activity.runOnUiThread(runnable);
+        try {
 
-        else
-            runnable.run();
+            if (async) {
+                Thread thread = new Thread(runnable);
+                thread.setPriority(priority);
+                thread.start();
+            } else if (onUi)
+                activity.runOnUiThread(runnable);
+
+            else
+                runnable.run();
+
+        } catch (Exception e) {
+            Log.d(FastEvent.TAG, "event " + event + " failed");
+        }
 
     }
 

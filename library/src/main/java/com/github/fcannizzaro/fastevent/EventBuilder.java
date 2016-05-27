@@ -1,4 +1,4 @@
-package com.github.fcannizzaro.sample;
+package com.github.fcannizzaro.fastevent;
 
 import android.app.Activity;
 
