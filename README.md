@@ -87,7 +87,9 @@ FastEvent
 
 ```
 
-![](https://github.com/fcannizzaro/fast-event/blob/master/sample.gif)]
+# Sample (GIF)
+
+![](https://github.com/fcannizzaro/fast-event/blob/master/sample.gif)
 
 # License
 MIT - Francesco Cannizzaro 
