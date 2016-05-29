@@ -48,9 +48,9 @@ public class FastEvent {
     /**
      * Emit event
      */
-    public static void emit(String event) {
+    public static void emit(String event, Object... args) {
         if (instance.events.containsKey(event) && !instance.disabled.contains(event)) {
-            instance.events.get(event).run();
+            instance.events.get(event).run(args);
             log(event + " emitted");
         } else
             log(event + " not exist");

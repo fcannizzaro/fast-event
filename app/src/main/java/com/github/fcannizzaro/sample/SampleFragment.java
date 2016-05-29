@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.github.fcannizzaro.fastevent.EventCallback;
 import com.github.fcannizzaro.fastevent.FastEvent;
 
 /**
@@ -25,7 +26,7 @@ public class SampleFragment extends Fragment {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                FastEvent.emit("in-activity");
+                FastEvent.emit("in-activity", "ok");
             }
         });
 
@@ -33,13 +34,15 @@ public class SampleFragment extends Fragment {
         FastEvent
                 .on("in-fragment")
                 .onUi(getActivity())
-                .execute(new Runnable() {
+                .execute(new EventCallback() {
                     @Override
-                    public void run() {
+                    public void onEvent(Object... args) {
 
                         // do something
 
-                        event.setText("in-fragment-called!");
+                        // cast your args
+
+                        event.setText("in-fragment-called! (" + args[0] + ")");
 
                     }
                 });

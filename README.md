@@ -21,7 +21,7 @@ Step 2. Add the dependency
 
 ```gradle
 dependencies {
-    compile 'com.github.fcannizzaro:fast-event:0.1.0'
+    compile 'com.github.fcannizzaro:fast-event:0.1.2'
 }
 ```
 
@@ -33,8 +33,8 @@ enable verbose log (development)
 ### on(event)
 create a new EventBuilder
 
-### emit(event)
-emit event
+### emit(event, [, Object ... args])
+emit event (optional arguments)
 
 ### delete(event)
 delete event
@@ -59,8 +59,8 @@ use min priority in thread execution
 ### onUi(Activity)
 run runnable inside Main Thread UI
 
-### execute(Runnable)
-runnable to run on event
+### execute(EventCallback)
+Callback to execute on event
 
 # Sample
 ```java
@@ -68,22 +68,24 @@ runnable to run on event
 FastEvent
   .on("my-event")
   .onUi(this)
-  .execute(new Runnable() {
-      @Override
-        public void run() {
-  
-            // do something
-  
-      }
+  .execute(new EventCallback() {
+        @Override
+        public void onEvent(Object... args) {
+
+           // do something
+
+         }
   });
 
 FastEvent
   .on("my-event-on-thread")
   .async()
   .maxPriority()
-  .execute(runnable);
+  .execute(callback);
   
+ // emit
  FastEvent.emit("my-event");
+ FastEvent.emit("my-event", "str", 5);
 
 ```
 

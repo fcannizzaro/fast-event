@@ -6,6 +6,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.github.fcannizzaro.fastevent.EventCallback;
 import com.github.fcannizzaro.fastevent.FastEvent;
 
 public class MainActivity extends AppCompatActivity {
@@ -20,16 +21,20 @@ public class MainActivity extends AppCompatActivity {
 
         FastEvent.enableLogs();
 
+        // define a custom event inside activity (called from fragment)
+
         FastEvent
                 .on("in-activity")
                 .onUi(this)
-                .execute(new Runnable() {
+                .execute(new EventCallback() {
                     @Override
-                    public void run() {
+                    public void onEvent(Object... args) {
 
                         // do something
 
-                        event.setText("in-activity-called!");
+                        // cast your args
+
+                        event.setText("in-activity-called! (" + args[0] + ")");
 
                     }
                 });
@@ -37,7 +42,7 @@ public class MainActivity extends AppCompatActivity {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                FastEvent.emit("in-fragment");
+                FastEvent.emit("in-fragment", "ok");
             }
         });
 

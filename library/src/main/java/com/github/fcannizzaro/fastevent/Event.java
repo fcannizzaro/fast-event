@@ -12,12 +12,21 @@ public class Event {
 
     private Activity activity;
     private String event;
-    private Runnable runnable;
+    private EventCallback callback;
     private boolean async;
     private boolean onUi;
     private int priority = Thread.NORM_PRIORITY;
 
-    public void run() {
+
+    public void run(final Object... args) {
+
+        Runnable runnable = new Runnable() {
+            @Override
+            public void run() {
+                callback.onEvent(args);
+            }
+        };
+
 
         try {
 
@@ -57,8 +66,8 @@ public class Event {
         this.async = async;
     }
 
-    public void setRunnable(Runnable runnable) {
-        this.runnable = runnable;
+    public void setCallback(EventCallback callback) {
+        this.callback = callback;
     }
 
     public void setEvent(String event) {

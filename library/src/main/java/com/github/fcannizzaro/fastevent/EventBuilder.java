@@ -21,8 +21,8 @@ public class EventBuilder {
     /**
      * Runnable to run on event
      */
-    public void execute(Runnable runnable) {
-        this.event.setRunnable(runnable);
+    public void execute(EventCallback callback) {
+        this.event.setCallback(callback);
         instance.register(event);
     }
 
