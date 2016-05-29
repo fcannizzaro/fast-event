@@ -2,4 +2,7 @@
     <string name="app_name">FastEvent</string>
     <string name="click_me_on_fragment">Click me (Fragment)</string>
     <string name="click_me">Click me (Activity)</string>
+    <string name="stop_operation">Stop</string>
+    <string name="start_operation">Start</string>
+    <string name="background_operation">Background Operation</string>
 </resources>

@@ -3,6 +3,7 @@ package com.github.fcannizzaro.fastevent;
 import android.util.Log;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 
 /**
@@ -33,9 +34,12 @@ public class FastEvent {
     /**
      * Log print
      */
-    private static void log(String log) {
+    private static void log(String log, Object... args) {
         if (verbose)
-            Log.d(TAG, log);
+            if (args.length > 0)
+                Log.d(TAG, log + " " + Arrays.asList(args));
+            else
+                Log.d(TAG, log);
     }
 
     /**
@@ -51,7 +55,7 @@ public class FastEvent {
     public static void emit(String event, Object... args) {
         if (instance.events.containsKey(event) && !instance.disabled.contains(event)) {
             instance.events.get(event).run(args);
-            log(event + " emitted");
+            log(event + " emitted", args);
         } else
             log(event + " not exist");
     }

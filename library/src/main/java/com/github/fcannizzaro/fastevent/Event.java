@@ -27,7 +27,6 @@ public class Event {
             }
         };
 
-
         try {
 
             if (async) {
@@ -41,6 +40,7 @@ public class Event {
                 runnable.run();
 
         } catch (Exception e) {
+            e.printStackTrace();
             Log.d(FastEvent.TAG, "event " + event + " failed");
         }
 

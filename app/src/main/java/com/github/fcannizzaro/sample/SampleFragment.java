@@ -38,10 +38,6 @@ public class SampleFragment extends Fragment {
                     @Override
                     public void onEvent(Object... args) {
 
-                        // do something
-
-                        // cast your args
-
                         event.setText("in-fragment-called! (" + args[0] + ")");
 
                     }
