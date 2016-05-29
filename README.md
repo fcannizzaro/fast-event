@@ -2,6 +2,7 @@
 Simple event creation
 
 [![](https://jitpack.io/v/fcannizzaro/fast-event.svg)](https://jitpack.io/#fcannizzaro/fast-event)
+[![Build Status](https://travis-ci.org/fcannizzaro/fast-event.svg?branch=master)](https://travis-ci.org/fcannizzaro/fast-event)
 
 # Get It 
 
