@@ -3,10 +3,11 @@ Simple event creation
 
 [![](https://jitpack.io/v/fcannizzaro/fast-event.svg)](https://jitpack.io/#fcannizzaro/fast-event)
 [![Build Status](https://travis-ci.org/fcannizzaro/fast-event.svg?branch=master)](https://travis-ci.org/fcannizzaro/fast-event)
+[![Android Arsenal](https://img.shields.io/badge/Android%20Arsenal-fast--event-brightgreen.svg?style=flat)](http://android-arsenal.com/details/1/3647)
 
-# Get It 
+# How to include
 
-Add it in your root build.gradle at the end of repositories:
+**Step 1.** Add it in your root **build.gradle** at the end of repositories:
 
 ```gradle
 allprojects {
@@ -17,7 +18,7 @@ allprojects {
   }
 ```
 
-Step 2. Add the dependency
+**Step 2.** Add the dependency
 
 
 ```gradle
