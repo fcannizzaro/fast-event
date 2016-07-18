@@ -22,7 +22,7 @@ Step 2. Add the dependency
 
 ```gradle
 dependencies {
-    compile 'com.github.fcannizzaro:fast-event:0.1.3'
+    compile 'com.github.fcannizzaro:fast-event:0.1.4'
 }
 ```
 
@@ -71,7 +71,10 @@ FastEvent
   .onUi(this)
   .execute(new EventCallback() {
         @Override
-        public void onEvent(Object... args) {
+        public void onEvent(Args args) {
+
+        	String first = args.get(0);
+        	boolean second = args.get(1);
 
            // do something
 

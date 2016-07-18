@@ -12,7 +12,7 @@ public class EventBuilder {
     private Event event;
     private FastEvent instance;
 
-    public EventBuilder(String event, FastEvent instance) {
+    EventBuilder(String event, FastEvent instance) {
         this.event = new Event();
         this.event.setEvent(event);
         this.instance = instance;

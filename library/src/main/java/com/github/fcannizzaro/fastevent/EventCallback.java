@@ -5,6 +5,6 @@ package com.github.fcannizzaro.fastevent;
  */
 public interface EventCallback {
 
-    void onEvent(Object... args);
+    void onEvent(Args args);
 
 }

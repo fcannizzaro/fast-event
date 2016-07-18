@@ -6,6 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.TextView;
 
+import com.github.fcannizzaro.fastevent.Args;
 import com.github.fcannizzaro.fastevent.EventCallback;
 import com.github.fcannizzaro.fastevent.FastEvent;
 
@@ -33,9 +34,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 .onUi(this)
                 .execute(new EventCallback() {
                     @Override
-                    public void onEvent(Object... args) {
-
-                        event.setText("in-activity-called! (" + args[0] + ")");
+                    public void onEvent(Args args) {
+                        event.setText("in-activity-called! (" + args.get(0) + ")");
 
                     }
                 });
@@ -45,8 +45,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 .onUi(this)
                 .execute(new EventCallback() {
                     @Override
-                    public void onEvent(Object... args) {
-                        eventService.setText("service :  " + args[0]);
+                    public void onEvent(Args args) {
+
+                        String status = args.get(0);
+
+                        eventService.setText("service :  " + status);
                     }
                 });
 

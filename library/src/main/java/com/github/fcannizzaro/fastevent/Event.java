@@ -17,13 +17,12 @@ public class Event {
     private boolean onUi;
     private int priority = Thread.NORM_PRIORITY;
 
-
-    public void run(final Object... args) {
+    void run(final Object... args) {
 
         Runnable runnable = new Runnable() {
             @Override
             public void run() {
-                callback.onEvent(args);
+                callback.onEvent(new Args(args));
             }
         };
 
@@ -48,33 +47,33 @@ public class Event {
 
     // getters
 
-    public String getEvent() {
+    String getEvent() {
         return event;
     }
 
     // setters
 
-    public void setPriority(int priority) {
+    void setPriority(int priority) {
         this.priority = priority;
     }
 
-    public void setOnUi(boolean onUi) {
+    void setOnUi(boolean onUi) {
         this.onUi = onUi;
     }
 
-    public void setAsync(boolean async) {
+    void setAsync(boolean async) {
         this.async = async;
     }
 
-    public void setCallback(EventCallback callback) {
+    void setCallback(EventCallback callback) {
         this.callback = callback;
     }
 
-    public void setEvent(String event) {
+    void setEvent(String event) {
         this.event = event;
     }
 
-    public void setActivity(Activity activity) {
+    void setActivity(Activity activity) {
         this.activity = activity;
     }
 

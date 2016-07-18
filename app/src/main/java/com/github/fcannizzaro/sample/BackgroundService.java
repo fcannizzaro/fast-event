@@ -4,6 +4,7 @@ import android.app.Service;
 import android.content.Intent;
 import android.os.IBinder;
 
+import com.github.fcannizzaro.fastevent.Args;
 import com.github.fcannizzaro.fastevent.EventCallback;
 import com.github.fcannizzaro.fastevent.FastEvent;
 
@@ -23,9 +24,9 @@ public class BackgroundService extends Service {
                 .on("service")
                 .execute(new EventCallback() {
                     @Override
-                    public void onEvent(Object... args) {
+                    public void onEvent(Args args) {
 
-                        boolean status = (boolean) args[0];
+                        boolean status = args.get(0);
 
                         if (status != enabled)
                             FastEvent.emit("status", status ? "starting" : "off");

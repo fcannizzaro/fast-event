@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.github.fcannizzaro.fastevent.Args;
 import com.github.fcannizzaro.fastevent.EventCallback;
 import com.github.fcannizzaro.fastevent.FastEvent;
 
@@ -36,10 +37,9 @@ public class SampleFragment extends Fragment {
                 .onUi(getActivity())
                 .execute(new EventCallback() {
                     @Override
-                    public void onEvent(Object... args) {
-
-                        event.setText("in-fragment-called! (" + args[0] + ")");
-
+                    public void onEvent(Args args) {
+                        String ev = args.get(0);
+                        event.setText("in-fragment-called! (" + ev + ")");
                     }
                 });
 

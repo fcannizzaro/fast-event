@@ -12,7 +12,7 @@ import java.util.HashMap;
 @SuppressWarnings("unused")
 public class FastEvent {
 
-    public final static String TAG = "FastEvent";
+    final static String TAG = "FastEvent";
 
     private static boolean verbose;
     private static FastEvent instance = new FastEvent();
