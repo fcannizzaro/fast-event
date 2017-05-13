@@ -6,52 +6,39 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.TextView;
 
-import com.github.fcannizzaro.fastevent.Args;
-import com.github.fcannizzaro.fastevent.EventCallback;
 import com.github.fcannizzaro.fastevent.FastEvent;
+import com.github.fcannizzaro.fastevent.annotations.Event;
+import com.github.fcannizzaro.fastevent.annotations.OnUi;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+
+    private TextView event, eventService;
+
+    @OnUi
+    @Event("in-activity")
+    private void updateText(String text) {
+        event.setText("in-activity-called! (" + text + ")");
+    }
+
+    @OnUi
+    @Event("status")
+    private void updateStatus(String status) {
+        eventService.setText("service :  " + status);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        FastEvent.bind(this);
 
-        final TextView event = (TextView) findViewById(R.id.event_activity),
-                eventService = (TextView) findViewById(R.id.event_service);
-
-        FastEvent.enableLogs();
+        event = (TextView) findViewById(R.id.event_activity);
+        eventService = (TextView) findViewById(R.id.event_service);
 
         multiOnClickistener(R.id.start_service, R.id.stop_operation, R.id.button);
 
         Intent backgroundService = new Intent(MainActivity.this, BackgroundService.class);
         startService(backgroundService);
-
-        // define a custom event inside activity (called from fragment)
-
-        FastEvent
-                .on("in-activity")
-                .onUi(this)
-                .execute(new EventCallback() {
-                    @Override
-                    public void onEvent(Args args) {
-                        event.setText("in-activity-called! (" + args.get(0) + ")");
-
-                    }
-                });
-
-        FastEvent
-                .on("status")
-                .onUi(this)
-                .execute(new EventCallback() {
-                    @Override
-                    public void onEvent(Args args) {
-
-                        String status = args.get(0);
-
-                        eventService.setText("service :  " + status);
-                    }
-                });
 
         getSupportFragmentManager()
                 .beginTransaction()
@@ -59,7 +46,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 .commit();
 
     }
-
 
     @Override
     public void onClick(View v) {
@@ -82,9 +68,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     }
 
-
     private void multiOnClickistener(int... ids) {
         for (int i : ids)
             findViewById(i).setOnClickListener(this);
     }
+
 }

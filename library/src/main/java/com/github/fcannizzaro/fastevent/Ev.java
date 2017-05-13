@@ -1,60 +1,65 @@
 package com.github.fcannizzaro.fastevent;
 
 import android.app.Activity;
-import android.util.Log;
+
+import java.lang.reflect.Method;
 
 /**
  * Francesco Cannizzaro (fcannizzaro)
  */
 
 @SuppressWarnings("unused")
-public class Event {
+public class Ev {
+
+    private Object instance;
+    private Method method;
 
     private Activity activity;
     private String event;
-    private EventCallback callback;
     private boolean async;
     private boolean onUi;
-    private int priority = Thread.NORM_PRIORITY;
+
+    public Ev(String event, Object instance, Method method, Activity activity) {
+        this.event = event;
+        this.instance = instance;
+        this.method = method;
+        this.activity = activity;
+    }
 
     void run(final Object... args) {
 
         Runnable runnable = new Runnable() {
             @Override
             public void run() {
-                callback.onEvent(new Args(args));
+                try {
+                    method.invoke(instance, args);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
         };
 
         try {
 
+            System.out.println(onUi + " " + activity);
+
             if (async) {
                 Thread thread = new Thread(runnable);
-                thread.setPriority(priority);
                 thread.start();
-            } else if (onUi)
+            } else if (onUi) {
                 activity.runOnUiThread(runnable);
-
-            else
+            } else {
                 runnable.run();
+            }
 
         } catch (Exception e) {
             e.printStackTrace();
-            Log.d(FastEvent.TAG, "event " + event + " failed");
         }
 
     }
 
-    // getters
-
     String getEvent() {
         return event;
-    }
-
-    // setters
-
-    void setPriority(int priority) {
-        this.priority = priority;
     }
 
     void setOnUi(boolean onUi) {
@@ -65,17 +70,9 @@ public class Event {
         this.async = async;
     }
 
-    void setCallback(EventCallback callback) {
-        this.callback = callback;
+    @Override
+    public String toString() {
+        return event + " " + activity;
     }
-
-    void setEvent(String event) {
-        this.event = event;
-    }
-
-    void setActivity(Activity activity) {
-        this.activity = activity;
-    }
-
 
 }

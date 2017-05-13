@@ -23,80 +23,82 @@ allprojects {
 
 ```gradle
 dependencies {
-    compile 'com.github.fcannizzaro:fast-event:0.1.4'
+    compile 'com.github.fcannizzaro:fast-event:1.0.0'
 }
 ```
 
 # Static Methods
 
-### enableLogs()
-enable verbose log (development)
+### bind(Class clazz, [, Activity activity])
+register event annotations.
 
-### on(event)
-create a new EventBuilder
-
-### emit(event, [, Object ... args])
-emit event (optional arguments)
+### emit(event, Object ... args)
+emit event.
 
 ### delete(event)
-delete event
+delete event.
 
-### enable(event)
-enable event (if disabled)
+# Annotations
 
-### disable(event)
-disable event (if enabled)
+### @Event(String: event)
+define method to run.
 
-# EventBuilder Methods
+### @OnUi
+run method on ui.
 
-### async()
-run event runnable inside a different thread
+### @Async
+run method on a thread.
 
-### maxPriority()
-use max priority in thread execution
+# Usage
 
-### minPriority()
-use min priority in thread execution
-
-### onUi(Activity)
-run runnable inside Main Thread UI
-
-### execute(EventCallback)
-Callback to execute on event
-
-# Sample
+## Activity / Service / Class
 ```java
+class Sample extends Activity {
 
-FastEvent
-  .on("my-event")
-  .onUi(this)
-  .execute(new EventCallback() {
-        @Override
-        public void onEvent(Args args) {
+    @OnUi
+    @Event("my-event")
+    private void onUpdate(String key, Integer counter) {
+        // do something
+    }
 
-        	String first = args.get(0);
-        	boolean second = args.get(1);
-
-           // do something
-
-         }
-  });
-
-FastEvent
-  .on("my-event-on-thread")
-  .async()
-  .maxPriority()
-  .execute(callback);
-  
- // emit
- FastEvent.emit("my-event");
- FastEvent.emit("my-event", "str", 5);
-
+    @Async
+    @Event("my-event-on-thread")
+    private void onUpdate(String key) {
+        // do something
+    }
+    
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        ...
+        FastEvent.bind(this);
+        ...
+    }
+    
+}
 ```
 
-# Sample (GIF)
+## Fragment
+```java
 
-![](https://github.com/fcannizzaro/fast-event/blob/master/sample.gif)
+class Sample extends Fragment {
+
+    // define events
+    // ...
+    
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        ...
+        FastEvent.bind(this, getActivity());
+        ...
+    }
+    
+}
+```
+
+## Emit
+```java
+ FastEvent.emit("my-event", "fcannizzaro", 20);
+```
 
 # License
-MIT - Francesco Cannizzaro 
+MIT - **Francesco Cannizzaro** 

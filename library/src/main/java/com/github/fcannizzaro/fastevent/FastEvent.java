@@ -1,9 +1,12 @@
 package com.github.fcannizzaro.fastevent;
 
-import android.util.Log;
+import android.app.Activity;
 
-import java.util.ArrayList;
-import java.util.Arrays;
+import com.github.fcannizzaro.fastevent.annotations.Async;
+import com.github.fcannizzaro.fastevent.annotations.Event;
+import com.github.fcannizzaro.fastevent.annotations.OnUi;
+
+import java.lang.reflect.Method;
 import java.util.HashMap;
 
 /**
@@ -12,52 +15,47 @@ import java.util.HashMap;
 @SuppressWarnings("unused")
 public class FastEvent {
 
-    final static String TAG = "FastEvent";
-
-    private static boolean verbose;
+    private HashMap<String, Ev> events;
     private static FastEvent instance = new FastEvent();
-    private HashMap<String, Event> events;
-    private ArrayList<String> disabled;
 
     private FastEvent() {
         events = new HashMap<>();
-        disabled = new ArrayList<>();
     }
 
-    /**
-     * Enable logs on development
-     */
-    public static void enableLogs() {
-        verbose = true;
+    public static void bind(Object clazz) {
+        bind(clazz, clazz instanceof Activity ? (Activity) clazz : null);
     }
 
-    /**
-     * Log print
-     */
-    private static void log(String log, Object... args) {
-        if (verbose)
-            if (args.length > 0)
-                Log.d(TAG, log + " " + Arrays.asList(args));
-            else
-                Log.d(TAG, log);
+    public static void bind(Object clazz, Activity activity) {
+        for (Method method : clazz.getClass().getDeclaredMethods()) {
+            if (method.isAnnotationPresent(Event.class)) {
+                instance.register(method, clazz, activity);
+            }
+        }
     }
 
-    /**
-     * Create a new EventBuilder
-     */
-    public static EventBuilder on(String event) {
-        return new EventBuilder(event, instance);
+    private void register(final Method method, final Object clazz, final Activity activity) {
+
+        Event annotation = method.getAnnotation(Event.class);
+        OnUi onUi = method.getAnnotation(OnUi.class);
+        Async async = method.getAnnotation(Async.class);
+
+        Ev event = new Ev(annotation.value(), clazz, method, activity);
+        event.setAsync(async != null);
+        event.setOnUi(onUi != null);
+        method.setAccessible(true);
+
+        instance.events.put(event.getEvent(), event);
+
     }
 
     /**
      * Emit event
      */
     public static void emit(String event, Object... args) {
-        if (instance.events.containsKey(event) && !instance.disabled.contains(event)) {
+        if (instance.events.containsKey(event)) {
             instance.events.get(event).run(args);
-            log(event + " emitted", args);
-        } else
-            log(event + " not exist");
+        }
     }
 
     /**
@@ -65,31 +63,6 @@ public class FastEvent {
      */
     public static void delete(String event) {
         instance.events.remove(event);
-        log(event + " deleted");
-    }
-
-    /**
-     * Enable event (if disabled)
-     */
-    public static void enable(String event) {
-        instance.disabled.remove(event);
-        log(event + " enabled");
-    }
-
-    /**
-     * Disable event (if enabled)
-     */
-    public static void disable(String event) {
-        instance.disabled.add(event);
-        log(event + " disabled");
-    }
-
-    /**
-     * Register a new event
-     */
-    void register(Event event) {
-        instance.events.put(event.getEvent(), event);
-        log(event.getEvent() + " registered");
     }
 
 }

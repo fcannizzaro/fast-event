@@ -4,9 +4,8 @@ import android.app.Service;
 import android.content.Intent;
 import android.os.IBinder;
 
-import com.github.fcannizzaro.fastevent.Args;
-import com.github.fcannizzaro.fastevent.EventCallback;
 import com.github.fcannizzaro.fastevent.FastEvent;
+import com.github.fcannizzaro.fastevent.annotations.Event;
 
 import java.text.DateFormat;
 import java.util.Date;
@@ -15,26 +14,22 @@ public class BackgroundService extends Service {
 
     private boolean enabled;
 
+    @Event("service")
+    public void update(boolean status) {
+
+        if (status != enabled) {
+            FastEvent.emit("status", status ? "starting" : "off");
+        }
+
+        enabled = status;
+
+    }
+
     @Override
     public void onCreate() {
 
         super.onCreate();
-
-        FastEvent
-                .on("service")
-                .execute(new EventCallback() {
-                    @Override
-                    public void onEvent(Args args) {
-
-                        boolean status = args.get(0);
-
-                        if (status != enabled)
-                            FastEvent.emit("status", status ? "starting" : "off");
-
-                        enabled = status;
-
-                    }
-                });
+        FastEvent.bind(this);
 
         new Thread(new Runnable() {
             @Override
@@ -44,16 +39,13 @@ public class BackgroundService extends Service {
 
                     while (enabled) {
 
-                        System.out.println("do something");
-
                         String currentDateTimeString = DateFormat.getTimeInstance().format(new Date());
-
                         FastEvent.emit("status", "working -> " + currentDateTimeString);
 
                         try {
-                            Thread.sleep(2000);
-                        } catch (InterruptedException ignored) {
-
+                            Thread.sleep(1000);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
                         }
 
                     }
@@ -75,4 +67,5 @@ public class BackgroundService extends Service {
     public IBinder onBind(Intent intent) {
         return null;
     }
+
 }
